@@ -1,29 +1,29 @@
-// Load the express module to create a web application
+// Charger le module express pour créer une application web
 
 const express = require("express");
 
 const app = express();
 
-// Configure it
+// Configurer l'application
 
 /* ************************************************************************* */
 
-// CORS Handling: Why is the current code commented out and do I need to define specific allowed origins for my project?
+// Gestion du CORS : Pourquoi le code actuel est commenté et dois-je définir des origines spécifiques autorisées pour mon projet ?
 
-// CORS (Cross-Origin Resource Sharing) is a security mechanism in web browsers that blocks requests from a different domain than the server.
-// You may find the following magic line in forums:
+// CORS (Cross-Origin Resource Sharing) est un mécanisme de sécurité dans les navigateurs web qui bloque les requêtes provenant d'un domaine différent de celui du serveur.
+// Tu peux trouver la ligne magique suivante dans les forums :
 
 // app.use(cors());
 
-// You should NOT do that: such code uses the `cors` module to allow all origins, which can pose security issues.
-// For this pedagogical template, the CORS code is commented out to show the need for defining specific allowed origins.
+// Il ne faut PAS faire ça : ce code utilise le module `cors` pour permettre toutes les origines, ce qui peut poser des problèmes de sécurité.
+// Pour ce modèle pédagogique, le code CORS est commenté pour montrer la nécessité de définir des origines spécifiques autorisées.
 
-// To enable CORS and define allowed origins:
-// 1. Install the `cors` module in the server directory
-// 2. Uncomment the line `const cors = require("cors");`
-// 3. Uncomment the section `app.use(cors({ origin: [...] }))`
-// 4. Be sure to only have URLs in the array with domains from which you want to allow requests.
-// For example: ["http://mysite.com", "http://another-domain.com"]
+// Pour activer CORS et définir les origines autorisées :
+// 1. Installer le module `cors` dans le répertoire du serveur.
+// 2. Décommenter la ligne `const cors = require("cors");`.
+// 3. Décommenter la section `app.use(cors({ origin: [...] }))`.
+// 4. Assure-toi d'avoir uniquement les URLs dans le tableau avec des domaines depuis lesquels tu veux autoriser les requêtes.
+// Par exemple : ["http://monsite.com", "http://autre-domaine.com"]
 
 /*
 const cors = require("cors");
@@ -31,9 +31,9 @@ const cors = require("cors");
 app.use(
   cors({
     origin: [
-      process.env.CLIENT_URL, // keep this one, after checking the value in `server/.env`
-      "http://mysite.com",
-      "http://another-domain.com",
+      process.env.CLIENT_URL, // garde celui-ci après avoir vérifié sa valeur dans `server/.env`
+      "http://monsite.com",
+      "http://autre-domaine.com",
     ]
   })
 );
@@ -41,18 +41,18 @@ app.use(
 
 /* ************************************************************************* */
 
-// Request Parsing: Understanding the purpose of this part
+// Analyse des requêtes : Comprendre l'objectif de cette partie
 
-// Request parsing is necessary to extract data sent by the client in an HTTP request.
-// For example to access the body of a POST request.
-// The current code contains different parsing options as comments to demonstrate different ways of extracting data.
+// L'analyse des requêtes est nécessaire pour extraire les données envoyées par le client dans une requête HTTP.
+// Par exemple, pour accéder au corps d'une requête POST.
+// Le code actuel contient différentes options d'analyse en commentaires pour démontrer les différentes manières d'extraire les données.
 
-// 1. `express.json()`: Parses requests with JSON data.
-// 2. `express.urlencoded()`: Parses requests with URL-encoded data.
-// 3. `express.text()`: Parses requests with raw text data.
-// 4. `express.raw()`: Parses requests with raw binary data.
+// 1. `express.json()` : Analyse les requêtes avec des données JSON.
+// 2. `express.urlencoded()` : Analyse les requêtes avec des données encodées en URL.
+// 3. `express.text()` : Analyse les requêtes avec des données en texte brut.
+// 4. `express.raw()` : Analyse les requêtes avec des données binaires brutes.
 
-// Uncomment one or more of these options depending on the format of the data sent by your client:
+// Décommente une ou plusieurs de ces options en fonction du format des données envoyées par ton client :
 
 // app.use(express.json());
 // app.use(express.urlencoded());
@@ -61,51 +61,51 @@ app.use(
 
 /* ************************************************************************* */
 
-// Cookies: Why and how to use the `cookie-parser` module?
+// Cookies : Pourquoi et comment utiliser le module `cookie-parser` ?
 
-// Cookies are small pieces of data stored in the client's browser. They are often used to store user-specific information or session data.
+// Les cookies sont de petites données stockées dans le navigateur du client. Ils sont souvent utilisés pour stocker des informations spécifiques à l'utilisateur ou des données de session.
 
-// The `cookie-parser` module allows us to parse and manage cookies in our Express application. It parses the `Cookie` header in incoming requests and populates `req.cookies` with an object containing the cookies.
+// Le module `cookie-parser` nous permet d'analyser et de gérer les cookies dans notre application Express. Il analyse l'en-tête `Cookie` dans les requêtes entrantes et remplit `req.cookies` avec un objet contenant les cookies.
 
-// To use `cookie-parser`, make sure it is installed in `server/package.json` (you may need to install it separately):
+// Pour utiliser `cookie-parser`, assure-toi qu'il est installé dans `server/package.json` (tu peux avoir besoin de l'installer séparément) :
 // npm install cookie-parser
 
-// Then, require the module and use it as middleware in your Express application:
+// Ensuite, charge le module et utilise-le comme middleware dans ton application Express :
 
 // const cookieParser = require("cookie-parser");
 // app.use(cookieParser());
 
-// Once `cookie-parser` is set up, you can read and set cookies in your routes.
-// For example, to set a cookie named "username" with the value "john":
+// Une fois `cookie-parser` configuré, tu peux lire et définir des cookies dans tes routes.
+// Par exemple, pour définir un cookie nommé "username" avec la valeur "john" :
 // res.cookie("username", "john");
 
-// To read the value of a cookie named "username":
+// Pour lire la valeur d'un cookie nommé "username" :
 // const username = req.cookies.username;
 
 /* ************************************************************************* */
 
-// Import the API router
+// Importer le routeur de l'API
 const apiRouter = require("./routers/api/router");
 
-// Mount the API router under the "/api" endpoint
+// Monter le routeur de l'API sous l'endpoint "/api"
 app.use("/api", apiRouter);
 
 /* ************************************************************************* */
 
-// Production-ready setup: What is it for, and when should I enable it?
+// Configuration prête pour la production : À quoi sert-elle et quand dois-je l'activer ?
 
-// The code includes commented sections to set up a production environment where the client and server are executed from the same processus.
+// Le code inclut des sections commentées pour configurer un environnement de production où le client et le serveur sont exécutés à partir du même processus.
 
-// What it's for:
-// - Serving client static files from the server, which is useful when building a single-page application with React.
-// - Redirecting unhandled requests (e.g., all requests not matching a defined API route) to the client's index.html. This allows the client to handle client-side routing.
+// À quoi ça sert :
+// - Servir les fichiers statiques du client depuis le serveur, ce qui est utile lors de la construction d'une application monopage avec React.
+// - Rediriger les requêtes non traitées (par exemple, toutes les requêtes ne correspondant pas à une route API définie) vers l'index.html du client. Cela permet au client de gérer le routage côté client.
 
-// When to enable it:
-// It depends on your project and its structure. If you are developing a single-page application, you'll enable these sections when you are ready to deploy your project to production.
+// Quand l'activer :
+// Cela dépend de ton projet et de sa structure. Si tu développes une application monopage, tu activeras ces sections lorsque tu seras prêt à déployer ton projet en production.
 
-// To enable production configuration:
-// 1. Uncomment the lines related to serving static files and redirecting unhandled requests.
-// 2. Ensure that the `reactBuildPath` points to the correct directory where your client's build artifacts are located.
+// Pour activer la configuration de production :
+// 1. Décommenter les lignes relatives à la gestion des fichiers statiques et à la redirection des requêtes non traitées.
+// 2. Assure-toi que le `reactBuildPath` pointe vers le bon répertoire où se trouvent les artefacts de build de ton client.
 
 /*
 const path = require("path");
@@ -113,15 +113,15 @@ const path = require("path");
 const reactBuildPath = path.join(__dirname, "/../../client/dist");
 const publicFolderPath = path.join(__dirname, "/../public");
 
-// Serve react resources
+// Servir les ressources React
 
 app.use(express.static(reactBuildPath));
 
-// Serve server resources
+// Servir les ressources du serveur
 
 app.get("*.*", express.static(publicFolderPath, { maxAge: "1y" }));
 
-// Redirect unhandled requests to the react index file
+// Rediriger les requêtes non traitées vers le fichier index de React
 
 app.get("*", (_, res) => {
   res.sendFile(path.join(reactBuildPath, "/index.html"));
@@ -130,21 +130,21 @@ app.get("*", (_, res) => {
 
 /* ************************************************************************* */
 
-// Middleware for Error Logging (Uncomment to enable)
-// Important: Error-handling middleware should be defined last, after other app.use() and routes calls.
+// Middleware pour la journalisation des erreurs (Décommenter pour activer)
+// Important : Le middleware de gestion des erreurs doit être défini en dernier, après les autres app.use() et les appels de routes.
 
 /*
-// Define a middleware function to log errors
+// Définir une fonction middleware pour journaliser les erreurs
 const logErrors = (err, req, res, next) => {
-  // Log the error to the console for debugging purposes
+  // Journaliser l'erreur dans la console pour les besoins de débogage
   console.error(err);
-  console.error("on req:", req.method, req.path);
+  console.error("sur la requête :", req.method, req.path);
 
-  // Pass the error to the next middleware in the stack
+  // Passer l'erreur au middleware suivant dans la pile
   next(err);
 };
 
-// Mount the logErrors middleware globally
+// Monter globalement le middleware logErrors
 app.use(logErrors);
 */
 

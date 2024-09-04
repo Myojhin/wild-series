@@ -1,27 +1,28 @@
-// Charger les variables d'environnement depuis le fichier .env
+// Load environment variables from .env file
+
 require("dotenv").config();
 
-// Vérifier la connexion à la base de données
-// Remarque : ceci est optionnel et peut être supprimé si la connexion à la base de données
-// n'est pas nécessaire lors du démarrage de l'application
+// Check database connection
+// Note: This is optional and can be removed if the database connection
+// is not required when starting the application
+
 require("./database/client").checkConnection();
 
-// Importer l'application Express depuis app/config.js
+// Import the Express application from app/config.js
+
 const app = require("./app/config");
 
-// Obtenir le port à partir des variables d'environnement
+// Get the port from the environment variables
+
 const port = process.env.APP_PORT;
 
-// Définir la route GET / pour afficher un message de bienvenue
-app.get("/", (req, res) => {
-  res.send("Welcome to Wild Series !");
-});
 
-// Démarrer le serveur et écouter sur le port spécifié
+// Start the server and listen on the specified port
+
 app
   .listen(port, () => {
-    console.info(`Le serveur écoute sur le port ${port}`);
+    console.info(`Server is listening on port ${port}`);
   })
   .on("error", (err) => {
-    console.error("Erreur :", err.message);
+    console.error("Error:", err.message);
   });
