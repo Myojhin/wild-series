@@ -1,3 +1,5 @@
+const tables = require("../../database/tables");
+
 // Données en dur pour les catégories
 const categories = [
     {
@@ -11,9 +13,11 @@ const categories = [
   ];
   
   // Action pour lister toutes les catégories (BROWSE)
-  const browse = (req, res) => {
-    res.json(categories);  // Retourne toutes les catégories en JSON
-  };
+  const browse = async (req, res) => {
+      const categoriesFromDB = await tables.category.readAll();
+    
+      res.json(categoriesFromDB);
+    };
   
   // Action pour récupérer une catégorie spécifique par ID (READ)
   const read = (req, res) => {
